@@ -26,6 +26,11 @@ public class Testing : MonoBehaviour
             VFXController.Instance.PlayBuffLoopVFX(spawnPoint);
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            VFXController.Instance.PlayDebuffLoopVFX(spawnPoint);
+        }
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             VFXController.Instance.StopBuffLoopVFX();

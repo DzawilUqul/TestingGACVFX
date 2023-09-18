@@ -9,7 +9,9 @@ public class VFXController : MonoBehaviour
     public static VFXController Instance { get; set; }
 
     [SerializeField] private ParticleSystem buffLoopedPrefab;
-    private List<ParticleSystem> buffLoopList;
+    [SerializeField] private ParticleSystem deBuffLoopedPrefab;
+    [SerializeField] private float scaleFactor;
+    private List<ParticleSystem> loopParticleList;
 
     private void Awake() 
     {
@@ -22,7 +24,7 @@ public class VFXController : MonoBehaviour
             Instance = this;
         }
 
-        buffLoopList = new List<ParticleSystem>();
+        loopParticleList = new List<ParticleSystem>();
     }
 
     public void SpawnAndPlayVFX(ParticleSystem buffLoopedPrefab, Transform spawnPoint, float speedMultiplier, float duration, float scaleFactor, Vector3 rotation)
@@ -45,18 +47,39 @@ public class VFXController : MonoBehaviour
 
     public void PlayBuffLoopVFX(Transform spawnPoint)
     {
-        ParticleSystem vfxInstance = Instantiate(buffLoopedPrefab, spawnPoint.position, Quaternion.identity);
-        buffLoopList.Add(vfxInstance);
+        AddVFXList(buffLoopedPrefab, spawnPoint);
+    }
 
-        vfxInstance.gameObject.SetActive(true);
+    public void PlayDebuffLoopVFX(Transform spawnPoint)
+    {
+        AddVFXList(deBuffLoopedPrefab, spawnPoint);
     }
 
     public void StopBuffLoopVFX()
     {
-        foreach (ParticleSystem particleSystem in buffLoopList.ToList())
+        foreach (ParticleSystem particleSystem in loopParticleList.ToList())
         {
             Destroy(particleSystem.gameObject);
-            buffLoopList.Remove(particleSystem);
+            loopParticleList.Remove(particleSystem);
+        }
+    }
+
+    private void AddVFXList(ParticleSystem vFXPrefab, Transform spawnPoint)
+    {
+        ParticleSystem vfxInstance = Instantiate(vFXPrefab, spawnPoint.position, Quaternion.identity);
+        loopParticleList.Add(vfxInstance);
+
+        ResizeVFX();
+    }
+
+    private void ResizeVFX()
+    {
+        foreach (ParticleSystem item in loopParticleList)
+        {
+            foreach (Transform particleGameObject in item.transform)
+            {
+                particleGameObject.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
+            }
         }
     }
 }
