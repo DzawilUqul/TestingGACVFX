@@ -456,6 +456,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffLoopedPrefab: {fileID: 5335042912253837384, guid: 66ee38cb63a82b947a224f3825624cca,
     type: 3}
+  deBuffLoopedPrefab: {fileID: 8541648911377578231, guid: 736035df72655c44e966ef9fb9d38ed9,
+    type: 3}
+  scaleFactor: 1
 --- !u!4 &437583454
 Transform:
   m_ObjectHideFlags: 0
